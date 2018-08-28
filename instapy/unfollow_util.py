@@ -643,8 +643,13 @@ def get_users_through_dialog(browser,
     try_again = 0
     sc_rolled = 0
 
+    # # find dialog box
+    # dialog = browser.find_element_by_xpath(
+    #   "//div[text()='Followers' or text()='Following']/../../following-sibling::div")
+    #FIX BUG
     # find dialog box
-    dialog_address = "//div[text()='Followers' or text()='Following']/../../following-sibling::div"
+    # dialog_address = "//div[text()='Followers' or text()='Following']/../../following-sibling::div"
+    dialog_address = "//div[text()='Followers' or text()='Following']"
     dialog = browser.find_element_by_xpath(dialog_address)
 
     if channel == "Follow":
@@ -729,8 +734,8 @@ def get_users_through_dialog(browser,
             simulator_counter = 0
 
     if channel == "Follow":
-        buttons = dialog.find_elements_by_xpath(
-            "//button[text()='Follow']")
+            buttons = dialog.find_elements_by_xpath(
+                "//button[text()='Follow']")
     elif channel == "Unfollow":
         buttons = dialog.find_elements_by_xpath(
             "//button[text() = 'Following']")
@@ -797,13 +802,18 @@ def follow_through_dialog(browser,
                 click_element(browser, button)
                 sleep(1)
 
-                dialog_address = "//div[text()='Followers' or text()='Following']/../../following-sibling::div"
+                # browser.get('https://www.instagram.com/' + person)
+                # userid = browser.execute_script("return window._sharedData.entry_data.ProfilePage[0].graphql.user.id")
+                #FIX BUG
+                # dialog_address = "//div[text()='Followers' or text()='Following']/../../following-sibling::div"
+                dialog_address = "//div[text()='Followers' or text()='Following']"
                 dialog = browser.find_element_by_xpath(dialog_address)
                 user_link_in_dialog = dialog.find_element_by_xpath(
                                 "//a[contains(@href,'{}')]".format(person))
                 click_element(browser, user_link_in_dialog)
                 sleep(2)
                 userid = browser.execute_script("return window._sharedData.entry_data.ProfilePage[0].graphql.user.id")
+
                 
                 logtime = datetime.now().strftime('%Y-%m-%d %H:%M')
                 log_followed_pool(login, person, logger, logfolder, logtime, userid)
